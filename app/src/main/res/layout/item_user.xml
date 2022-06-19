@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/user_img"
+            android:id="@+id/user_image"
             android:layout_width="@dimen/user_img_size"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             android:textSize="@dimen/user_name"
             android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/user_img"
+            app:layout_constraintStart_toEndOf="@id/user_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_marginHorizontal="@dimen/username_margin"
             android:layout_marginTop="@dimen/username_top_margin"
             tools:text="User id"
-            app:layout_constraintStart_toEndOf="@id/user_img"
+            app:layout_constraintStart_toEndOf="@id/user_image"
             app:layout_constraintTop_toBottomOf="@id/user_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

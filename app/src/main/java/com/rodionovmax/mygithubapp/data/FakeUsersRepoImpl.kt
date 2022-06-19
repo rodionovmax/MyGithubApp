@@ -6,9 +6,10 @@ import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
 
 private const val DATA_LOADING_FAKE_DELAY = 3_000L
+
 class FakeUsersRepoImpl : UsersRepo {
 
-    val data: List<UserEntity> = listOf(
+    private val data: List<UserEntity> = listOf(
         UserEntity("ivey", 6, "https://avatars.githubusercontent.com/u/6?v=4"),
         UserEntity("evanphx", 7, "https://avatars.githubusercontent.com/u/7?v=4"),
         UserEntity("vanpelt", 17, "https://avatars.githubusercontent.com/u/17?v=4"),
