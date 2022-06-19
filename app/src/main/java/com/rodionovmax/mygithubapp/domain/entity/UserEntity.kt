@@ -1,7 +1,9 @@
 package com.rodionovmax.mygithubapp.domain.entity
 
+import com.google.gson.annotations.SerializedName
+
 data class UserEntity(
-    val username: String,
-    val id: Long,
-    val userImg: String
+    @SerializedName("login") val username: String,
+    @SerializedName("id") val id: Long,
+    @SerializedName("avatar_url") val userImg: String
 )

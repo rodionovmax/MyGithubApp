@@ -21,6 +21,8 @@ class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
 
     override fun getItemCount() =  data.size
 
+    override fun getItemId(position: Int) = getItem(position).id
+
     private fun getItem(pos: Int) = data[pos]
 
     fun setData(users: List<UserEntity>) {

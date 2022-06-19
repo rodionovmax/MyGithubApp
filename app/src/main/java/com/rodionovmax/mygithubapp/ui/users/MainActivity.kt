@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodionovmax.mygithubapp.app
+
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
