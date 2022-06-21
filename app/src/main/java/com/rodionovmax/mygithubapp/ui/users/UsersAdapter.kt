@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.ui.users.UserViewHolder
 
-class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
+class UsersAdapter(
+    private val onItemClickListener: (UserEntity) -> Unit
+) : RecyclerView.Adapter<UserViewHolder>() {
 
     private val data = mutableListOf<UserEntity>()
 
@@ -13,7 +15,7 @@ class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(parent, onItemClickListener)
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(getItem(position))

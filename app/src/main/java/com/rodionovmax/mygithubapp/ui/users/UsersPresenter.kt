@@ -23,6 +23,10 @@ class UsersPresenter(private val usersRepo: UsersRepo) : UsersContract.Presenter
         loadData()
     }
 
+    override fun onUserClicked(userEntity: UserEntity) {
+        view?.openProfileScreen(userEntity)
+    }
+
     private fun loadData() {
         view?.showProgress(true)
         inProgress = true

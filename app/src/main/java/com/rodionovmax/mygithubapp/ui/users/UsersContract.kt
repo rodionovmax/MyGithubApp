@@ -8,11 +8,13 @@ interface UsersContract {
         fun showUsers(users: List<UserEntity>)
         fun showError(throwable: Throwable)
         fun showProgress(inProgress: Boolean)
+        fun openProfileScreen(userEntity: UserEntity)
     }
 
     interface Presenter {
         fun attach(view: View)
         fun detach()
         fun onRefresh()
+        fun onUserClicked(userEntity: UserEntity)
     }
 }

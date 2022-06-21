@@ -12,4 +12,10 @@
     <style name="ProgressBar">
         <item name="android:indeterminateTint">@color/violet</item>
     </style>
+
+    <style name="TitleText">
+        <item name="android:textSize">@dimen/user_name</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
 </resources>
