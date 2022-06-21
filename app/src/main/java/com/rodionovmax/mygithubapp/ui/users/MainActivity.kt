@@ -12,6 +12,7 @@ import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
 
+const val USER_PROFILE = "UserProfile"
 
 class MainActivity : AppCompatActivity(), UsersContract.View {
 
@@ -70,9 +71,8 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
     }
 
     override fun openProfileScreen(userEntity: UserEntity) {
-        startActivity(Intent(this, ProfileActivity::class.java))
         val i = Intent(this, ProfileActivity::class.java)
-        i.putExtra("UserProfile", userEntity)
+        i.putExtra(USER_PROFILE, userEntity)
         startActivity(i)
     }
 
