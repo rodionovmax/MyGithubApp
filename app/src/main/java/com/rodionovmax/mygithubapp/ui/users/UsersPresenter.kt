@@ -3,6 +3,8 @@ package com.rodionovmax.mygithubapp.ui.users
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
 
+// Presenter implementation for MVP. Leaving it commented out here just for notes
+/*
 class UsersPresenter(private val usersRepo: UsersRepo) : UsersContract.Presenter {
 
     private var view: UsersContract.View? = null
@@ -45,3 +47,4 @@ class UsersPresenter(private val usersRepo: UsersRepo) : UsersContract.Presenter
         )
     }
 }
+*/
