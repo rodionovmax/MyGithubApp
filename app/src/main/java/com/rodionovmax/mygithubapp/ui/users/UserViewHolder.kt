@@ -24,10 +24,9 @@ class UserViewHolder(
 
     fun bind(userEntity: UserEntity) {
         this.userEntity = userEntity
-        with(binding) {
-            Glide.with(itemView.context).load(userEntity.userImg).centerCrop().into(userImage)
-            userName.text = userEntity.username
-            userId.text = userEntity.id.toString()
-        }
+        Glide.with(itemView.context).load(userEntity.userImg).centerCrop().into(binding.userImage)
+        binding.userName.text = userEntity.username
+        binding.userId.text = userEntity.id.toString()
+
     }
 }
