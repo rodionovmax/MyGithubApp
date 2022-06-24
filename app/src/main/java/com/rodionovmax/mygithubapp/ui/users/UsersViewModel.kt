@@ -3,10 +3,10 @@ package com.rodionovmax.mygithubapp.ui.users
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
-import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
+import com.rodionovmax.mygithubapp.domain.repo.MainRepo
 import com.rodionovmax.mygithubapp.utils.SingleEventLiveData
 
-class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel {
+class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
     override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
     override val errorLiveData: LiveData<Throwable> = SingleEventLiveData()
     override val progressLiveData: LiveData<Boolean> = MutableLiveData()
@@ -18,7 +18,7 @@ class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel
 
     private fun loadData() {
         progressLiveData.mutable().postValue(true)
-        usersRepo.getUsers(
+        mainRepo.getUsers(
             onSuccess = {
                 progressLiveData.mutable().postValue(false)
                 usersLiveData.mutable().postValue(it)

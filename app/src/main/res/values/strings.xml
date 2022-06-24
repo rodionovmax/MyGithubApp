@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="btn_get_users">Get users</string>
     <string name="user_image">user image</string>
+    <string name="user_repos">User repos</string>
 </resources>
