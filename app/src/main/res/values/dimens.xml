@@ -6,4 +6,7 @@
     <dimen name="user_name">20sp</dimen>
     <dimen name="username_margin">4dp</dimen>
     <dimen name="username_top_margin">12dp</dimen>
+    <dimen name="details_view_margin">4dp</dimen>
+    <dimen name="user_img_details_width">150dp</dimen>
+    <dimen name="user_img_details_height">200dp</dimen>
 </resources>
