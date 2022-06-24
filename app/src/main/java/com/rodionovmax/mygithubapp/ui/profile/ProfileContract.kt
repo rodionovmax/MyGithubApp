@@ -1,12 +1,12 @@
 package com.rodionovmax.mygithubapp.ui.profile
 
 import androidx.lifecycle.LiveData
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
+import com.rodionovmax.mygithubapp.data.network.RepoEntityDto
 
 interface ProfileContract {
 
     interface ViewModel {
-        val profileLifeData: LiveData<List<RepoEntity>>
+        val profileLifeData: LiveData<List<RepoEntityDto>>
         val errorLiveData: LiveData<Throwable>
         val progressLiveData: LiveData<Boolean>
 

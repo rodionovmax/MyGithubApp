@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityProfileBinding
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.data.network.RepoEntityDto
+import com.rodionovmax.mygithubapp.data.network.UserEntityDto
 import com.rodionovmax.mygithubapp.ui.users.USER_PROFILE
 
 class ProfileActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var viewModel: ProfileContract.ViewModel
-    private var profile: UserEntity? = null
+    private var profile: UserEntityDto? = null
     private val adapter = ReposAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +24,7 @@ class ProfileActivity : AppCompatActivity(){
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        profile = intent.extras?.getParcelable<UserEntity>(USER_PROFILE)
+        profile = intent.extras?.getParcelable<UserEntityDto>(USER_PROFILE)
 
         initViewModel()
         initViews()
@@ -60,7 +60,7 @@ class ProfileActivity : AppCompatActivity(){
         binding.userIdDetails.text = profile?.id.toString()
     }
 
-    private fun showRepos(repos: List<RepoEntity>) {
+    private fun showRepos(repos: List<RepoEntityDto>) {
         showProfileDetails()
         adapter.setData(repos)
     }

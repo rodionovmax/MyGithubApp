@@ -2,15 +2,15 @@ package com.rodionovmax.mygithubapp.ui.users
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.data.network.UserEntityDto
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
 import com.rodionovmax.mygithubapp.utils.SingleEventLiveData
 
 class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
-    override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
+    override val usersLiveData: LiveData<List<UserEntityDto>> = MutableLiveData()
     override val errorLiveData: LiveData<Throwable> = SingleEventLiveData()
     override val progressLiveData: LiveData<Boolean> = MutableLiveData()
-    override val openProfileLiveData: LiveData<UserEntity> = SingleEventLiveData()
+    override val openProfileLiveData: LiveData<UserEntityDto> = SingleEventLiveData()
 
     override fun onRefresh() {
         loadData()
@@ -30,7 +30,7 @@ class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
         )
     }
 
-    override fun onUserClicked(userEntity: UserEntity) {
+    override fun onUserClicked(userEntity: UserEntityDto) {
         openProfileLiveData.mutable().postValue(userEntity)
     }
 

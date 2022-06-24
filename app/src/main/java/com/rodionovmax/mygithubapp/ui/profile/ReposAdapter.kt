@@ -3,11 +3,11 @@ package com.rodionovmax.mygithubapp.ui.profile
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
+import com.rodionovmax.mygithubapp.data.network.RepoEntityDto
 
 class ReposAdapter : RecyclerView.Adapter<ReposViewHolder>() {
 
-    private val data = mutableListOf<RepoEntity>()
+    private val data = mutableListOf<RepoEntityDto>()
 
     init {
         setHasStableIds(true)
@@ -24,7 +24,7 @@ class ReposAdapter : RecyclerView.Adapter<ReposViewHolder>() {
     private fun getItem(pos: Int) = data[pos]
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(repos: List<RepoEntity>) {
+    fun setData(repos: List<RepoEntityDto>) {
         data.clear()
         data.addAll(repos)
         notifyDataSetChanged()
