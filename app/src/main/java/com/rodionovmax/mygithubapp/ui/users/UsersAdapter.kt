@@ -3,12 +3,13 @@ package com.rodionovmax.mygithubapp.ui.users
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rodionovmax.mygithubapp.data.network.UserEntityDto
+import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 
 class UsersAdapter(
-    private val onItemClickListener: (UserEntityDto) -> Unit
+    private val onItemClickListener: (UserEntity) -> Unit
 ) : RecyclerView.Adapter<UserViewHolder>() {
 
-    private val data = mutableListOf<UserEntityDto>()
+    private val data = mutableListOf<UserEntity>()
 
     init {
         setHasStableIds(true)
@@ -26,7 +27,7 @@ class UsersAdapter(
 
     private fun getItem(pos: Int) = data[pos]
 
-    fun setData(users: List<UserEntityDto>) {
+    fun setData(users: List<UserEntity>) {
         data.clear()
         data.addAll(users)
         notifyDataSetChanged()

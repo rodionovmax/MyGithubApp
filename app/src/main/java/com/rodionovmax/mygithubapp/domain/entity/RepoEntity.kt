@@ -4,5 +4,5 @@ data class RepoEntity (
     val id: Long,
     val name: String,
     val url: String,
-    val description: String
+    val description: String?
 )

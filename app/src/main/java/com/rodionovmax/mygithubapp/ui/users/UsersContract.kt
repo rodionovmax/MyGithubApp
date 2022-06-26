@@ -1,18 +1,18 @@
 package com.rodionovmax.mygithubapp.ui.users
 
-import androidx.lifecycle.LiveData
-import com.rodionovmax.mygithubapp.data.network.UserEntityDto
+import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import io.reactivex.rxjava3.core.Observable
 
 interface UsersContract {
 
     interface ViewModel {
-        val usersLiveData: LiveData<List<UserEntityDto>>
-        val errorLiveData: LiveData<Throwable>
-        val progressLiveData: LiveData<Boolean>
-        val openProfileLiveData: LiveData<UserEntityDto>
+        val usersLiveData: Observable<List<UserEntity>>
+        val errorLiveData: Observable<Throwable>
+        val progressLiveData: Observable<Boolean>
+        val openProfileLiveData: Observable<UserEntity>
 
         fun onRefresh()
-        fun onUserClicked(userEntity: UserEntityDto)
+        fun onUserClicked(userEntity: UserEntity)
     }
 
 }

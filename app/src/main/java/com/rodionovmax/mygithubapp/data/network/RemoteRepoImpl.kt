@@ -1,7 +1,12 @@
 package com.rodionovmax.mygithubapp.data.network
 
+import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
+import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import retrofit2.*
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
@@ -12,11 +17,13 @@ class RemoteRepoImpl : MainRepo {
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
 
     private val api: GithubApi = retrofit.create(GithubApi::class.java)
 
-    override fun getUsers(onSuccess: (List<UserEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
+    // implementation for LiveData
+    /*override fun getUsers(onSuccess: (List<UserEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
         api.getUsers().enqueue(object : Callback<List<UserEntityDto>> {
             override fun onResponse(
                 call: Call<List<UserEntityDto>>,
@@ -35,9 +42,52 @@ class RemoteRepoImpl : MainRepo {
             }
 
         })
+    }*/
+
+    override fun getUsers(
+        onSuccess: (List<UserEntity>) -> Unit,
+        onError: ((Throwable) -> Unit)?
+    ) {
+        api.getUsers().subscribeBy(
+            onSuccess = { users ->
+                onSuccess.invoke(users.map { it.toUserEntity() })
+            },
+            onError = {
+                onError?.invoke(it)
+            }
+        )
     }
 
-    override fun getRepos(userName: String, onSuccess: (List<RepoEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
+    override fun getUsers(): Single<List<UserEntity>> = api.getUsers()
+        .map { users ->
+            users.map {
+                it.toUserEntity()
+            }
+        }
+
+    override fun getRepos(
+        userName: String,
+        onSuccess: (List<RepoEntity>) -> Unit,
+        onError: ((Throwable) -> Unit)?
+    ) {
+        api.getRepos(userName).subscribeBy(
+            onSuccess = { repos ->
+                onSuccess.invoke(repos.map { it.toRepoEntity() })
+            },
+            onError = {
+                onError?.invoke(it)
+            }
+        )
+    }
+
+    override fun getRepos(userName: String): Single<List<RepoEntity>> = api.getRepos(userName)
+        .map { repos ->
+            repos.map {
+                it.toRepoEntity()
+            }
+        }
+
+    /*override fun getRepos(userName: String, onSuccess: (List<RepoEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
         api.getRepos(userName).enqueue(object : Callback<List<RepoEntityDto>> {
             override fun onResponse(
                 call: Call<List<RepoEntityDto>>,
@@ -56,5 +106,7 @@ class RemoteRepoImpl : MainRepo {
             }
 
         })
-    }
+    }*/
+
+
 }

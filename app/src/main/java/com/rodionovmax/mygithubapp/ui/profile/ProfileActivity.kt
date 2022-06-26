@@ -10,32 +10,47 @@ import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityProfileBinding
 import com.rodionovmax.mygithubapp.data.network.RepoEntityDto
 import com.rodionovmax.mygithubapp.data.network.UserEntityDto
+import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
+import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.ui.users.USER_PROFILE
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class ProfileActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var viewModel: ProfileContract.ViewModel
-    private var profile: UserEntityDto? = null
+    private var profile: UserEntity? = null
     private val adapter = ReposAdapter()
+    private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        profile = intent.extras?.getParcelable<UserEntityDto>(USER_PROFILE)
+        profile = intent.extras?.getParcelable<UserEntity>(USER_PROFILE)
 
-        initViewModel()
+        viewModel = extractViewModel()
+        viewModelDisposable.addAll(
+            viewModel.progressLiveData.subscribe { showProgress(it) },
+            viewModel.profileLifeData.subscribe { showRepos(it) },
+            viewModel.errorLiveData.subscribe { showError(it) }
+        )
+//        initViewModel()
         initViews()
 
     }
 
-    private fun initViewModel() {
+    /*private fun initViewModel() {
         viewModel = extractViewModel()
         viewModel.progressLiveData.observe(this) { showProgress(it) }
         viewModel.profileLifeData.observe(this) { showRepos(it) }
         viewModel.errorLiveData.observe(this) { showError(it) }
+    }*/
+
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
     }
 
     private fun extractViewModel(): ProfileContract.ViewModel {
@@ -60,7 +75,7 @@ class ProfileActivity : AppCompatActivity(){
         binding.userIdDetails.text = profile?.id.toString()
     }
 
-    private fun showRepos(repos: List<RepoEntityDto>) {
+    private fun showRepos(repos: List<RepoEntity>) {
         showProfileDetails()
         adapter.setData(repos)
     }
