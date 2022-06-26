@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rodionovmax.mygithubapp.data.network.RepoEntityDto
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
-import com.rodionovmax.mygithubapp.utils.SingleEventLiveData
+import com.rodionovmax.mygithubapp.ui.utils.SingleEventLiveData
 
 class ProfileViewModel(private val mainRepo: MainRepo) : ProfileContract.ViewModel {
 

@@ -1,4 +1,4 @@
-package com.rodionovmax.mygithubapp.utils
+package com.rodionovmax.mygithubapp.ui.utils
 
 import android.util.Log
 import androidx.annotation.MainThread
