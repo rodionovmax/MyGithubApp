@@ -14,8 +14,12 @@
     </style>
 
     <style name="TitleText">
-        <item name="android:textSize">@dimen/user_name</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="SubtitleText">
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
     </style>
 
 </resources>

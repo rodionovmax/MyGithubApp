@@ -8,21 +8,19 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
-import com.rodionovmax.mygithubapp.domain.repo.UsersRepo
+import com.rodionovmax.mygithubapp.data.network.UserEntityDto
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
 
 const val USER_PROFILE = "UserProfile"
 
-class MainActivity : AppCompatActivity(), UsersContract.View {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val adapter = UsersAdapter {
-        presenter.onUserClicked(it)
+        viewModel.onUserClicked(it)
     }
-    private val usersRepo: UsersRepo by lazy { app.usersRepo }
 
-    private lateinit var presenter: UsersContract.Presenter
+    private lateinit var viewModel: UsersContract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +29,29 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
         setContentView(binding.root)
 
         initViews()
-
-        presenter = extractPresenter()
-        presenter.attach(this)
+        initViewModel()
     }
 
-    private fun extractPresenter(): UsersContract.Presenter {
-        return lastCustomNonConfigurationInstance as? UsersContract.Presenter ?: UsersPresenter(app.usersRepo)
+    private fun initViewModel() {
+        viewModel = extractViewModel()
+
+        viewModel.progressLiveData.observe(this) {showProgress(it)}
+        viewModel.errorLiveData.observe(this) {showError(it)}
+        viewModel.usersLiveData.observe(this) {showUsers(it)}
+        viewModel.openProfileLiveData.observe(this) {openProfileScreen(it)}
     }
 
-    override fun onRetainCustomNonConfigurationInstance(): UsersContract.Presenter {
-        return presenter
+    private fun extractViewModel(): UsersContract.ViewModel {
+        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.mainRepo)
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): UsersContract.ViewModel {
+        return viewModel
     }
 
     private fun initViews() {
         binding.getUsersBtn.setOnClickListener {
-            presenter.onRefresh()
+            viewModel.onRefresh()
         }
         initRecyclerView()
         showProgress(false)
@@ -57,45 +62,23 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
         binding.recyclerviewUsers.adapter = adapter
     }
 
-    override fun showUsers(users: List<UserEntity>) {
+    private fun showUsers(users: List<UserEntityDto>) {
         adapter.setData(users)
     }
 
-    override fun showError(throwable: Throwable) {
+    private fun showError(throwable: Throwable) {
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showProgress(inProgress: Boolean) {
+    private fun showProgress(inProgress: Boolean) {
         binding.progressBar.isVisible = inProgress
         binding.recyclerviewUsers.isVisible = !inProgress
     }
 
-    override fun openProfileScreen(userEntity: UserEntity) {
+    private fun openProfileScreen(userEntity: UserEntityDto) {
         val i = Intent(this, ProfileActivity::class.java)
         i.putExtra(USER_PROFILE, userEntity)
         startActivity(i)
     }
-
-    /*private fun loadData() {
-        showProgress(true)
-        usersRepo.getUsers(
-            onSuccess = {
-                showProgress(false)
-                onLoadedData(it)
-            },
-            onError = {
-                showProgress(false)
-                onError(it)
-            }
-        )
-    }*/
-
-    /*private fun onError(error: Throwable) {
-        Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-    }*/
-
-    /*private fun onLoadedData(data: List<UserEntity>) {
-        adapter.setData(data)
-    }*/
 
 }
