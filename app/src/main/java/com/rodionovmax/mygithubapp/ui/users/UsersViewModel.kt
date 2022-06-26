@@ -2,15 +2,14 @@ package com.rodionovmax.mygithubapp.ui.users
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.rodionovmax.mygithubapp.data.network.UserEntityDto
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
-import com.rodionovmax.mygithubapp.utils.SingleEventLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
+
 
 class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
     override val usersLiveData: Observable<List<UserEntity>> = BehaviorSubject.create()

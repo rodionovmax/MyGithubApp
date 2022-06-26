@@ -3,7 +3,8 @@ package com.rodionovmax.mygithubapp.data.network
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.rodionovmax.mygithubapp.domain.entity.UserEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
+
 
 @Parcelize
 data class UserEntityDto(
