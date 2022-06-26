@@ -36,17 +36,9 @@ class ProfileActivity : AppCompatActivity(){
             viewModel.profileLifeData.subscribe { showRepos(it) },
             viewModel.errorLiveData.subscribe { showError(it) }
         )
-//        initViewModel()
         initViews()
 
     }
-
-    /*private fun initViewModel() {
-        viewModel = extractViewModel()
-        viewModel.progressLiveData.observe(this) { showProgress(it) }
-        viewModel.profileLifeData.observe(this) { showRepos(it) }
-        viewModel.errorLiveData.observe(this) { showError(it) }
-    }*/
 
     override fun onDestroy() {
         viewModelDisposable.dispose()
