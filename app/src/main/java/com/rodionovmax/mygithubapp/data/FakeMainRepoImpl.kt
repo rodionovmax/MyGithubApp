@@ -2,8 +2,8 @@ package com.rodionovmax.mygithubapp.data
 
 import android.os.Handler
 import android.os.Looper
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.domain.model.Repo
+import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
 import io.reactivex.rxjava3.core.Single
 
@@ -11,29 +11,29 @@ private const val DATA_LOADING_FAKE_DELAY = 3_000L
 
 class FakeMainRepoImpl : MainRepo {
 
-    private val users: List<UserEntity> = listOf(
-        UserEntity("ivey", 6, "https://avatars.githubusercontent.com/u/6?v=4"),
-        UserEntity("evanphx", 7, "https://avatars.githubusercontent.com/u/7?v=4"),
-        UserEntity("vanpelt", 17, "https://avatars.githubusercontent.com/u/17?v=4"),
-        UserEntity("wayneeseguin", 18, "https://avatars.githubusercontent.com/u/18?v=4"),
-        UserEntity("brynary", 19, "https://avatars.githubusercontent.com/u/19?v=4")
+    private val users: List<User> = listOf(
+        User("ivey", 6, "https://avatars.githubusercontent.com/u/6?v=4"),
+        User("evanphx", 7, "https://avatars.githubusercontent.com/u/7?v=4"),
+        User("vanpelt", 17, "https://avatars.githubusercontent.com/u/17?v=4"),
+        User("wayneeseguin", 18, "https://avatars.githubusercontent.com/u/18?v=4"),
+        User("brynary", 19, "https://avatars.githubusercontent.com/u/19?v=4")
     )
 
-    override fun getUsers(onSuccess: (List<UserEntity>) -> Unit, onError: ((Throwable) -> Unit)?) {
+    override fun getUsers(onSuccess: (List<User>) -> Unit, onError: ((Throwable) -> Unit)?) {
         Handler(Looper.getMainLooper()).postDelayed({
             onSuccess(users)
         }, DATA_LOADING_FAKE_DELAY)
     }
 
-    override fun getUsers(): Single<List<UserEntity>> = Single.just(users)
+    override fun getUsers(): Single<List<User>> = Single.just(users)
 
-    private val repos: List<RepoEntity> = listOf(
-        RepoEntity(124701020, "addressbook-we-tests", "https://github.com/rodionovmax/addressbook-we-tests", "создан проект и первый тест"),
+    private val repos: List<Repo> = listOf(
+        Repo(124701020, "addressbook-we-tests", "https://github.com/rodionovmax/addressbook-we-tests", "создан проект и первый тест"),
     )
 
     override fun getRepos(
         userName: String,
-        onSuccess: (List<RepoEntity>) -> Unit,
+        onSuccess: (List<Repo>) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
         Handler(Looper.getMainLooper()).postDelayed({
@@ -41,5 +41,5 @@ class FakeMainRepoImpl : MainRepo {
         }, DATA_LOADING_FAKE_DELAY)
     }
 
-    override fun getRepos(userName: String): Single<List<RepoEntity>> = Single.just(repos)
+    override fun getRepos(userName: String): Single<List<Repo>> = Single.just(repos)
 }

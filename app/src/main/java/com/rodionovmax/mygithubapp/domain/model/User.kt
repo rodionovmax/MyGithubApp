@@ -1,11 +1,11 @@
-package com.rodionovmax.mygithubapp.domain.entity
+package com.rodionovmax.mygithubapp.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class UserEntity(
+data class User(
     val username: String,
     val id: Long,
     val userImg: String

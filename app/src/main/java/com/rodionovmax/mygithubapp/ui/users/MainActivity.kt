@@ -8,8 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
-import com.rodionovmax.mygithubapp.data.network.UserEntityDto
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerviewUsers.adapter = adapter
     }
 
-    private fun showUsers(users: List<UserEntity>) {
+    private fun showUsers(users: List<User>) {
         adapter.setData(users)
     }
 
@@ -81,9 +80,9 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerviewUsers.isVisible = !inProgress
     }
 
-    private fun openProfileScreen(userEntity: UserEntity) {
+    private fun openProfileScreen(user: User) {
         val i = Intent(this, ProfileActivity::class.java)
-        i.putExtra(USER_PROFILE, userEntity)
+        i.putExtra(USER_PROFILE, user)
         startActivity(i)
     }
 

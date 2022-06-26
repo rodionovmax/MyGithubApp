@@ -1,6 +1,6 @@
-package com.rodionovmax.mygithubapp.domain.entity
+package com.rodionovmax.mygithubapp.domain.model
 
-data class RepoEntity (
+data class Repo (
     val id: Long,
     val name: String,
     val url: String,

@@ -1,7 +1,7 @@
 package com.rodionovmax.mygithubapp.data.network
 
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.domain.model.Repo
+import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -45,12 +45,12 @@ class RemoteRepoImpl : MainRepo {
     }*/
 
     override fun getUsers(
-        onSuccess: (List<UserEntity>) -> Unit,
+        onSuccess: (List<User>) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
         api.getUsers().subscribeBy(
             onSuccess = { users ->
-                onSuccess.invoke(users.map { it.toUserEntity() })
+                onSuccess.invoke(users.map { it.toUserModel() })
             },
             onError = {
                 onError?.invoke(it)
@@ -58,21 +58,21 @@ class RemoteRepoImpl : MainRepo {
         )
     }
 
-    override fun getUsers(): Single<List<UserEntity>> = api.getUsers()
+    override fun getUsers(): Single<List<User>> = api.getUsers()
         .map { users ->
             users.map {
-                it.toUserEntity()
+                it.toUserModel()
             }
         }
 
     override fun getRepos(
         userName: String,
-        onSuccess: (List<RepoEntity>) -> Unit,
+        onSuccess: (List<Repo>) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
         api.getRepos(userName).subscribeBy(
             onSuccess = { repos ->
-                onSuccess.invoke(repos.map { it.toRepoEntity() })
+                onSuccess.invoke(repos.map { it.toRepoModel() })
             },
             onError = {
                 onError?.invoke(it)
@@ -80,10 +80,10 @@ class RemoteRepoImpl : MainRepo {
         )
     }
 
-    override fun getRepos(userName: String): Single<List<RepoEntity>> = api.getRepos(userName)
+    override fun getRepos(userName: String): Single<List<Repo>> = api.getRepos(userName)
         .map { repos ->
             repos.map {
-                it.toRepoEntity()
+                it.toRepoModel()
             }
         }
 

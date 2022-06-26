@@ -2,7 +2,7 @@ package com.rodionovmax.mygithubapp.data.network
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.domain.model.User
 import kotlinx.parcelize.Parcelize
 
 
@@ -12,14 +12,14 @@ data class UserEntityDto(
     @SerializedName("id") val id: Long,
     @SerializedName("avatar_url") val userImg: String
 ) : Parcelable {
-    fun toUserEntity() = UserEntity(username, id, userImg)
+    fun toUserModel() = User(username, id, userImg)
 
     companion object {
-        fun fromUserEntity(userEntity: UserEntity) : UserEntityDto {
+        fun fromUserModelToDto(user: User) : UserEntityDto {
             return UserEntityDto(
-                userEntity.username,
-                userEntity.id,
-                userEntity.userImg
+                user.username,
+                user.id,
+                user.userImg
             )
         }
     }

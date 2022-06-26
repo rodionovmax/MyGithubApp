@@ -2,7 +2,7 @@ package com.rodionovmax.mygithubapp.ui.users
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.rodionovmax.mygithubapp.domain.entity.UserEntity
+import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.domain.repo.MainRepo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -12,10 +12,10 @@ import io.reactivex.rxjava3.subjects.Subject
 
 
 class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
-    override val usersLiveData: Observable<List<UserEntity>> = BehaviorSubject.create()
+    override val usersLiveData: Observable<List<User>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
     override val progressLiveData: Observable<Boolean> = BehaviorSubject.create()
-    override val openProfileLiveData: Observable<UserEntity> = BehaviorSubject.create()
+    override val openProfileLiveData: Observable<User> = BehaviorSubject.create()
 
     override fun onRefresh() {
         loadData()
@@ -37,8 +37,8 @@ class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
             )
     }
 
-    override fun onUserClicked(userEntity: UserEntity) {
-        openProfileLiveData.mutable().onNext(userEntity)
+    override fun onUserClicked(user: User) {
+        openProfileLiveData.mutable().onNext(user)
     }
 
 

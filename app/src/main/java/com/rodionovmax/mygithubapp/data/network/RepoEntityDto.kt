@@ -2,7 +2,7 @@ package com.rodionovmax.mygithubapp.data.network
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.rodionovmax.mygithubapp.domain.entity.RepoEntity
+import com.rodionovmax.mygithubapp.domain.model.Repo
 import kotlinx.parcelize.Parcelize
 
 
@@ -13,15 +13,15 @@ data class RepoEntityDto(
     @SerializedName("html_url") val url: String,
     @SerializedName("description") val description: String?
 ) : Parcelable {
-    fun toRepoEntity() = RepoEntity(id, name, url, description)
+    fun toRepoModel() = Repo(id, name, url, description)
 
     companion object {
-        fun fromRepoEntity(repoEntity: RepoEntity) : RepoEntityDto {
+        fun fromRepoModelToDto(repo: Repo) : RepoEntityDto {
             return RepoEntityDto(
-                repoEntity.id,
-                repoEntity.name,
-                repoEntity.url,
-                repoEntity.description
+                repo.id,
+                repo.name,
+                repo.url,
+                repo.description
             )
         }
     }
