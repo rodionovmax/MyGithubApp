@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rodionovmax.mygithubapp.App
 import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
 import com.rodionovmax.mygithubapp.domain.model.User
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.mainRepo)
+        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.remoteRepo, app.getDB().userDao)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UsersContract.ViewModel {

@@ -45,7 +45,7 @@ class ProfileActivity : AppCompatActivity(){
 
     private fun extractViewModel(): ProfileContract.ViewModel {
         return lastCustomNonConfigurationInstance as? ProfileContract.ViewModel
-            ?: ProfileViewModel(app.mainRepo)
+            ?: ProfileViewModel(app.remoteRepo)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): ProfileContract.ViewModel {

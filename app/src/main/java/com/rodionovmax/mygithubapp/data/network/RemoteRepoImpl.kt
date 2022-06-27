@@ -2,7 +2,7 @@ package com.rodionovmax.mygithubapp.data.network
 
 import com.rodionovmax.mygithubapp.domain.model.Repo
 import com.rodionovmax.mygithubapp.domain.model.User
-import com.rodionovmax.mygithubapp.domain.repo.MainRepo
+import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import retrofit2.*
@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.github.com/"
 
-class RemoteRepoImpl : MainRepo {
+class RemoteRepoImpl : RemoteRepo {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

@@ -4,12 +4,12 @@ import android.os.Handler
 import android.os.Looper
 import com.rodionovmax.mygithubapp.domain.model.Repo
 import com.rodionovmax.mygithubapp.domain.model.User
-import com.rodionovmax.mygithubapp.domain.repo.MainRepo
+import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import io.reactivex.rxjava3.core.Single
 
 private const val DATA_LOADING_FAKE_DELAY = 3_000L
 
-class FakeMainRepoImpl : MainRepo {
+class FakeRemoteRepoImpl : RemoteRepo {
 
     private val users: List<User> = listOf(
         User("ivey", 6, "https://avatars.githubusercontent.com/u/6?v=4"),

@@ -3,7 +3,7 @@ package com.rodionovmax.mygithubapp.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rodionovmax.mygithubapp.domain.model.Repo
-import com.rodionovmax.mygithubapp.domain.repo.MainRepo
+import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
 
-class ProfileViewModel(private val mainRepo: MainRepo) : ProfileContract.ViewModel {
+class ProfileViewModel(private val mainRepo: RemoteRepo) : ProfileContract.ViewModel {
 
     override val profileLifeData: Observable<List<Repo>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()

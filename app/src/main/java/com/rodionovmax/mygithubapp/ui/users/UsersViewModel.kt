@@ -2,8 +2,10 @@ package com.rodionovmax.mygithubapp.ui.users
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.rodionovmax.mygithubapp.data.local.UserDao
 import com.rodionovmax.mygithubapp.domain.model.User
-import com.rodionovmax.mygithubapp.domain.repo.MainRepo
+import com.rodionovmax.mygithubapp.domain.repo.LocalRepo
+import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -11,7 +13,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
 
-class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
+class UsersViewModel(private val remoteRepo: RemoteRepo, private val localDataSource: UserDao) : UsersContract.ViewModel {
     override val usersLiveData: Observable<List<User>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
     override val progressLiveData: Observable<Boolean> = BehaviorSubject.create()
@@ -23,7 +25,7 @@ class UsersViewModel(private val mainRepo: MainRepo) : UsersContract.ViewModel {
 
     private fun loadData() {
         progressLiveData.mutable().onNext(true)
-        mainRepo.getUsers()
+        remoteRepo.getUsers()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {

@@ -4,7 +4,7 @@ import com.rodionovmax.mygithubapp.domain.model.Repo
 import com.rodionovmax.mygithubapp.domain.model.User
 import io.reactivex.rxjava3.core.Single
 
-interface MainRepo {
+interface RemoteRepo {
 
     // used with LiveData
     fun getUsers(
