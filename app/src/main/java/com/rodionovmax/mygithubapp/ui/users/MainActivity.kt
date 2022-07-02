@@ -6,10 +6,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rodionovmax.mygithubapp.App
 import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
-import com.rodionovmax.mygithubapp.data.network.UserEntityDto
+import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 const val USER_PROFILE = "UserProfile"
 
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: UsersContract.ViewModel
+    private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,20 +32,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-        initViewModel()
-    }
-
-    private fun initViewModel() {
         viewModel = extractViewModel()
 
-        viewModel.progressLiveData.observe(this) {showProgress(it)}
-        viewModel.errorLiveData.observe(this) {showError(it)}
-        viewModel.usersLiveData.observe(this) {showUsers(it)}
-        viewModel.openProfileLiveData.observe(this) {openProfileScreen(it)}
+        viewModelDisposable.addAll(
+            viewModel.progressLiveData.subscribe { showProgress(it) },
+            viewModel.usersLiveData.subscribe { showUsers(it) },
+            viewModel.errorLiveData.subscribe { showError(it) },
+            viewModel.openProfileLiveData.subscribe { openProfileScreen(it) }
+        )
+    }
+
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.mainRepo)
+        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.remoteRepo, app.getDB().userDao)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UsersContract.ViewModel {
@@ -62,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerviewUsers.adapter = adapter
     }
 
-    private fun showUsers(users: List<UserEntityDto>) {
+    private fun showUsers(users: List<User>) {
         adapter.setData(users)
     }
 
@@ -75,9 +81,9 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerviewUsers.isVisible = !inProgress
     }
 
-    private fun openProfileScreen(userEntity: UserEntityDto) {
+    private fun openProfileScreen(user: User) {
         val i = Intent(this, ProfileActivity::class.java)
-        i.putExtra(USER_PROFILE, userEntity)
+        i.putExtra(USER_PROFILE, user)
         startActivity(i)
     }
 
