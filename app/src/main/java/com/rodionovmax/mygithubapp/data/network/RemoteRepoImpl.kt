@@ -10,39 +10,9 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-private const val BASE_URL = "https://api.github.com/"
-
-class RemoteRepoImpl : RemoteRepo {
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .build()
-
-    private val api: GithubApi = retrofit.create(GithubApi::class.java)
-
-    // implementation for LiveData
-    /*override fun getUsers(onSuccess: (List<UserEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
-        api.getUsers().enqueue(object : Callback<List<UserEntityDto>> {
-            override fun onResponse(
-                call: Call<List<UserEntityDto>>,
-                response: Response<List<UserEntityDto>>
-            ) {
-                val body = response.body()
-                if (response.isSuccessful && body != null) {
-                    onSuccess.invoke(body)
-                } else {
-                    onError?.invoke(IllegalStateException("Data error"))
-                }
-            }
-
-            override fun onFailure(call: Call<List<UserEntityDto>>, t: Throwable) {
-                onError?.invoke(t)
-            }
-
-        })
-    }*/
+class RemoteRepoImpl(
+    private val api: GithubApi
+) : RemoteRepo {
 
     override fun getUsers(
         onSuccess: (List<User>) -> Unit,
@@ -87,6 +57,28 @@ class RemoteRepoImpl : RemoteRepo {
             }
         }
 
+    // implementation for LiveData
+    /*override fun getUsers(onSuccess: (List<UserEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
+        api.getUsers().enqueue(object : Callback<List<UserEntityDto>> {
+            override fun onResponse(
+                call: Call<List<UserEntityDto>>,
+                response: Response<List<UserEntityDto>>
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    onSuccess.invoke(body)
+                } else {
+                    onError?.invoke(IllegalStateException("Data error"))
+                }
+            }
+
+            override fun onFailure(call: Call<List<UserEntityDto>>, t: Throwable) {
+                onError?.invoke(t)
+            }
+
+        })
+    }*/
+
     /*override fun getRepos(userName: String, onSuccess: (List<RepoEntityDto>) -> Unit, onError: ((Throwable) -> Unit)?) {
         api.getRepos(userName).enqueue(object : Callback<List<RepoEntityDto>> {
             override fun onResponse(
@@ -107,6 +99,5 @@ class RemoteRepoImpl : RemoteRepo {
 
         })
     }*/
-
 
 }

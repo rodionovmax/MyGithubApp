@@ -6,10 +6,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rodionovmax.mygithubapp.App
 import com.rodionovmax.mygithubapp.app
+import com.rodionovmax.mygithubapp.data.local.UserDao
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
 import com.rodionovmax.mygithubapp.domain.model.User
+import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     private val adapter = UsersAdapter {
         viewModel.onUserClicked(it)
     }
+
+    private val remoteRepo: RemoteRepo by lazy { app.remoteRepo }
+    private val localDataSourceUsers: UserDao by lazy { app.getDB().userDao }
 
     private lateinit var viewModel: UsersContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
@@ -48,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(app.remoteRepo, app.getDB().userDao)
+        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(remoteRepo, localDataSourceUsers)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UsersContract.ViewModel {

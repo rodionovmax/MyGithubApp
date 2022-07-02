@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
 
-class ProfileViewModel(private val mainRepo: RemoteRepo) : ProfileContract.ViewModel {
+class ProfileViewModel(private val remoteRepo: RemoteRepo) : ProfileContract.ViewModel {
 
     override val profileLifeData: Observable<List<Repo>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
@@ -24,7 +24,7 @@ class ProfileViewModel(private val mainRepo: RemoteRepo) : ProfileContract.ViewM
     private fun loadData(username: String?) {
         progressLiveData.mutable().onNext(true)
         if (username != null) {
-            mainRepo.getRepos(username)
+            remoteRepo.getRepos(username)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                     onSuccess = {

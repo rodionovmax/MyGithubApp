@@ -1,7 +1,6 @@
 package com.rodionovmax.mygithubapp.data
 
 import android.os.Handler
-import android.os.Looper
 import com.rodionovmax.mygithubapp.domain.model.Repo
 import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
@@ -9,7 +8,9 @@ import io.reactivex.rxjava3.core.Single
 
 private const val DATA_LOADING_FAKE_DELAY = 3_000L
 
-class FakeRemoteRepoImpl : RemoteRepo {
+class FakeRepoImpl(
+    private val uiHandler: Handler
+) : RemoteRepo {
 
     private val users: List<User> = listOf(
         User("ivey", 6, "https://avatars.githubusercontent.com/u/6?v=4"),
@@ -20,7 +21,7 @@ class FakeRemoteRepoImpl : RemoteRepo {
     )
 
     override fun getUsers(onSuccess: (List<User>) -> Unit, onError: ((Throwable) -> Unit)?) {
-        Handler(Looper.getMainLooper()).postDelayed({
+        uiHandler.postDelayed({
             onSuccess(users)
         }, DATA_LOADING_FAKE_DELAY)
     }
@@ -36,7 +37,7 @@ class FakeRemoteRepoImpl : RemoteRepo {
         onSuccess: (List<Repo>) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
-        Handler(Looper.getMainLooper()).postDelayed({
+        uiHandler.postDelayed({
             onSuccess(repos)
         }, DATA_LOADING_FAKE_DELAY)
     }

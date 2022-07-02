@@ -5,7 +5,9 @@ import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.domain.repo.LocalRepo
 import kotlinx.coroutines.*
 
-class LocalRepoImpl(private val localDataSourceUsers: UserDao) : LocalRepo {
+class LocalRepoImpl(
+    private val localDataSourceUsers: UserDao
+) : LocalRepo {
     override fun getUsersLocal(): List<User> {
         var usersFromDb = listOf<User>()
         runBlocking {

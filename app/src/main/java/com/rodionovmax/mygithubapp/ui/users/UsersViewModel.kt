@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
 
-class UsersViewModel(private val remoteRepo: RemoteRepo, private val localDataSource: UserDao) : UsersContract.ViewModel {
+class UsersViewModel(private val remoteRepo: RemoteRepo, private val localDataSourceUsers: UserDao) : UsersContract.ViewModel {
     override val usersLiveData: Observable<List<User>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
     override val progressLiveData: Observable<Boolean> = BehaviorSubject.create()
