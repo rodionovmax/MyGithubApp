@@ -20,21 +20,14 @@ abstract class LocalDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: LocalDatabase? = null
 
-        fun getInstance(context: Context): LocalDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        LocalDatabase::class.java,
-                        DB_NAME
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
-                }
+        fun getInstance() = INSTANCE ?: throw RuntimeException("Database has not been created. Please call create(context)")
 
-                return instance
+        fun create(context: Context?): LocalDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(context!!, LocalDatabase::class.java, DB_NAME)
+                    .build()
+                INSTANCE = instance
+                instance
             }
         }
     }

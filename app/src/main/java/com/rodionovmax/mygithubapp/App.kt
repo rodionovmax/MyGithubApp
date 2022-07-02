@@ -3,20 +3,29 @@ package com.rodionovmax.mygithubapp
 import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.rodionovmax.mygithubapp.data.local.LocalDatabase
-import com.rodionovmax.mygithubapp.data.network.RemoteRepoImpl
-import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
+import com.rodionovmax.mygithubapp.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class App : Application() {
-    val remoteRepo: RemoteRepo by lazy { RemoteRepoImpl() }
-    private lateinit var appInstance : App
+
+    companion object {
+        lateinit var appInstance: App
+        lateinit  var appContext: Context
+    }
 
     override fun onCreate() {
         super.onCreate()
         appInstance = this
-    }
+        appContext = applicationContext
 
-    fun getDB() = LocalDatabase.getInstance(appInstance.applicationContext)
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(appModule)
+        }
+    }
 }
 
 val Context.app: App get() = applicationContext as App
