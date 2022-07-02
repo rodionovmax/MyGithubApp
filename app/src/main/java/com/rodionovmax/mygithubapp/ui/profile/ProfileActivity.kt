@@ -6,19 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.databinding.ActivityProfileBinding
 import com.rodionovmax.mygithubapp.domain.model.Repo
 import com.rodionovmax.mygithubapp.domain.model.User
 import com.rodionovmax.mygithubapp.ui.users.USER_PROFILE
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityProfileBinding
-    private lateinit var viewModel: ProfileContract.ViewModel
     private var profile: User? = null
     private val adapter = ReposAdapter()
+
+    private val viewModel: ProfileViewModel by viewModel()
     private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +27,8 @@ class ProfileActivity : AppCompatActivity(){
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        profile = intent.extras?.getParcelable<User>(USER_PROFILE)
+        profile = intent.extras?.getParcelable(USER_PROFILE)
 
-        viewModel = extractViewModel()
         viewModelDisposable.addAll(
             viewModel.progressLiveData.subscribe { showProgress(it) },
             viewModel.profileLifeData.subscribe { showRepos(it) },
@@ -41,15 +41,6 @@ class ProfileActivity : AppCompatActivity(){
     override fun onDestroy() {
         viewModelDisposable.dispose()
         super.onDestroy()
-    }
-
-    private fun extractViewModel(): ProfileContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? ProfileContract.ViewModel
-            ?: ProfileViewModel(app.remoteRepo)
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): ProfileContract.ViewModel {
-        return viewModel
     }
 
     private fun initViews() {

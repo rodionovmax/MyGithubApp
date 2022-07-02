@@ -6,13 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rodionovmax.mygithubapp.app
 import com.rodionovmax.mygithubapp.data.local.UserDao
 import com.rodionovmax.mygithubapp.databinding.ActivityMainBinding
 import com.rodionovmax.mygithubapp.domain.model.User
-import com.rodionovmax.mygithubapp.domain.repo.RemoteRepo
 import com.rodionovmax.mygithubapp.ui.profile.ProfileActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val USER_PROFILE = "UserProfile"
 
@@ -23,10 +23,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.onUserClicked(it)
     }
 
-    private val remoteRepo: RemoteRepo by lazy { app.remoteRepo }
-    private val localDataSourceUsers: UserDao by lazy { app.getDB().userDao }
+    private val localDataSourceUsers: UserDao by inject()
 
-    private lateinit var viewModel: UsersContract.ViewModel
+    private val viewModel: UsersViewModel by viewModel()
     private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-        viewModel = extractViewModel()
 
         viewModelDisposable.addAll(
             viewModel.progressLiveData.subscribe { showProgress(it) },
@@ -49,14 +47,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         viewModelDisposable.dispose()
         super.onDestroy()
-    }
-
-    private fun extractViewModel(): UsersContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel(remoteRepo, localDataSourceUsers)
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): UsersContract.ViewModel {
-        return viewModel
     }
 
     private fun initViews() {
